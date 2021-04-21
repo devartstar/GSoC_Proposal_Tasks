@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Panel Swipe</title>
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+    <link rel="stylesheet" href="./main.css">
+    <script>
+
+        $(document).on("pagecreate", "#mypage", function () {
+            $(document).on("swipeleft swiperight", "#mypage", function (e) {
+                if ($(".ui-page-active").jqmData("panel") !== "open") {
+                    if (e.type === "swipeleft") {
+                        $("#right-panel").panel("open");
+                    } else if (e.type === "swiperight") {
+                        $("#left-panel").panel("open");
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Header Starts  -->
+
+    <div class="mobile__screen">
+        <div class="main1">
+            <div data-role="page" id="mypage">
+                <div id="header">
+                    <img id="headerLogo"
+                        src="https://circuitverse.org/assets/CircuitVerse-c968d111d011b5a9fbd1dfc11efc32634e0971d6e5e7bb97b1cffce5927d8cd0.png"
+                        alt="CircuitVerse Logo" />
+                    <p id="projName">Untitled</p>
+                    <div class="hb">
+                        <p class="headerButton">Sign In</p>
+                        <p class="headerButton">Login</p>
+                    </div>
+                </div>
+                <!-- Header Ends -->
+
+                <!-- Option Slider Starts -->
+                <div class="slider">
+                    <div class="slider-slide">
+                        <div class="opt">A1</div>
+                        <div class="opt">A2</div>
+                        <div class="opt">A3</div>
+                        <div class="opt">A4</div>
+                        <div class="opt">A5</div>
+                    </div>
+                    <div class="slider-slide">
+                        <div class="opt">B1</div>
+                        <div class="opt">B2</div>
+                        <div class="opt">B3</div>
+                        <div class="opt">B4</div>
+                        <div class="opt">B5</div>
+                    </div>
+                    <div class="slider-slide">
+                        <div class="opt">C1</div>
+                        <div class="opt">C2</div>
+                        <div class="opt">C3</div>
+                        <div class="opt">C4</div>
+                        <div class="opt">C5</div>
+                    </div>
+                    <div class="slider-slide">
+                        <div class="opt">D1</div>
+                        <div class="opt">D2</div>
+                        <div class="opt">D3</div>
+                        <div class="opt">D4</div>
+                        <div class="opt">D5</div>
+                    </div>
+                </div>
+
+
+                <div id="tabsbar">
+                    <p id="tab">TabsBar <span><strong>X</strong></span></p>
+                    <p id="tab">TabsBar <span><strong>X</strong></span></p>
+                    <p id="tab">TabsBar <span><strong>X</strong></span></p>
+                </div>
+
+                <!-- Option Slider Ends -->
+
+                <div data-role="header" data-theme="b">
+                    <a href="#left-panel" data-icon="carat-r" data-iconpos="notext" class="ui-nodisc-icon"
+                        style="top:5px; z-index:2">Open left panel</a>
+                    <a href="#right-panel" data-icon="carat-l" data-iconpos="notext" class="ui-nodisc-icon"
+                        style="top:5px; z-index:2">Open right panel</a>
+                </div>
+
+                <div role="main" class="ui-content">
+                    <!-- ******************************* -->
+
+                    <canvas id='canvas' width='2000' height="2000"></canvas>
+                    <div id="zooming">
+                        <p id="zoomIn">+</p>
+                        <p id="zoomOut">-</p>
+                        <p id="zoomDef">0</p>
+                    </div>
+                    <!-- ******************************* -->
+                    <!-- Help Section at bottom 
+                            <div class="audio-container">
+                                <div class="audio-player--minimised" id="minimised">Tap to expand</div>
+                                <div class="audio-player--expanded hide" id="expanded">
+                                <div class="help">
+                                <img class="help-image" src="https://pbs.twimg.com/media/ERnKSZGVAAIJJ46.jpg" alt="logo"/>
+                                    <div class="help-text">
+                                    <p>Tutorial Guide</p>
+                                    <p>User Manual</p>
+                                    <p>Learn logic design</p>
+                                    <p>Discussion Forum</p>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            End of Help Section at bottom -->
+                </div>
+
+                <div data-role="panel" id="left-panel" data-theme="b" style="top:105px">
+
+                    <div id="bottomButton">
+                        <div class="buttonWrapper">
+                            <p class="buttonTitle">Toggle Options</p>
+                            <div id="b1">
+                                <button class="b1_button" data-rel="close"
+                                    onClick='toggleMode(modes.pan)'>Adjust</button>
+                                <button class="b1_button" data-rel="close"
+                                    onClick='toggleMode(modes.drawing)'>Draw</button>
+                            </div>
+                            <p class="buttonTitle">Select Color</p><input id='colorPicker' value="#000000"
+                                data-jscolor="{}">
+                            <div id="b4">
+                                <button class="b4_button" data-rel="close"
+                                    onClick='clearCanvas(canvas, svgState)'>Clear</button>
+                                <button class="b4_button" data-rel="close"
+                                    onClick='restoreCanvas(canvas, svgState, backURL)'>Back</button>
+                            </div>
+
+                            <p class="buttonTitle">Draw Option</p>
+                            <div id="b2">
+                                <button class="b2_button" data-rel="close" onClick="createRect(canvas)">Rect</button>
+                                <button class="b2_button" data-rel="close" onClick="createCirc(canvas)">Circ</button>
+                            </div>
+                            <div id="b3">
+                                <button class="b3_button" data-rel="close"
+                                    onClick="groupObjects(canvas,group,true)">Grp</button>
+                                <button class="b3_button" data-rel="close"
+                                    onClick="groupObjects(canvas,group,false)">UnGrp</button>
+                            </div>
+                            <div data-rel="close" class="buttonTitle">Image</div>
+                            <input type="file" accept="images/*" id="myImg">
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div data-role="panel" id="right-panel" data-display="push" data-position="right" data-theme="b"
+                    style="top:105px">
+                    <div class="grid-container">
+                        <div data-rel="close" class="grid-item">1</div>
+                        <div data-rel="close" class="grid-item">2</div>
+                        <div data-rel="close" class="grid-item">3</div>
+                        <div data-rel="close" class="grid-item">4</div>
+                        <div data-rel="close" class="grid-item">5</div>
+                        <div data-rel="close" class="grid-item">6</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="fabric.min.js"></script>
+    <script src="jscolor.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
